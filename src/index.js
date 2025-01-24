@@ -2,6 +2,8 @@ import { notesData } from "./sample-notes.js";
 import "./custom-element.js";
 
 const notesListElement = document.querySelector("#notesList");
+const formElement = document.querySelector("#form");
+const titleInput = formElement.elements.title;
 
 function checkArchive(archived) {
   if (archived) {
@@ -36,4 +38,37 @@ function createNoteItemElement({ id, title, body, createdAt, archived }) {
 notesData.forEach((sampleNote) => {
   const element = createNoteItemElement(sampleNote);
   notesListElement.append(element);
+});
+
+formElement.addEventListener("submit", (event) => event.preventDefault());
+
+const customValidation = (event) => {
+  event.target.setCustomValidity("");
+  if (event.target.validity.valueMissing) {
+    event.target.setCustomValidity("Field tidak boleh kosong");
+  }
+
+  if (event.target.validity.tooShort) {
+    event.target.setCustomValidity("Field minimal 5 karakter");
+  }
+};
+
+titleInput.addEventListener("input", customValidation);
+titleInput.addEventListener("invalid", customValidation);
+titleInput.addEventListener("change", customValidation);
+
+titleInput.addEventListener("blur", (event) => {
+  const isValid = event.target.validity.valid;
+  const errorMessage = event.target.validationMessage;
+
+  const connectedValidationId = event.target.getAttribute("aria-describedby");
+  const connectedValidationEl = connectedValidationId
+    ? document.getElementById(connectedValidationId)
+    : null;
+
+  if (connectedValidationEl && errorMessage && !isValid) {
+    connectedValidationEl.innerText = errorMessage;
+  } else {
+    connectedValidationEl.innerText = "";
+  }
 });
