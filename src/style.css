@@ -17,7 +17,7 @@ header {
   box-shadow: 4px 6px #000000;
   font-family: "Lexend Mega", serif;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1rem;
 }
 
 .list {
@@ -64,7 +64,7 @@ header {
 #form {
   display: grid;
   gap: 1rem;
-  background-color: #fdfd96;
+  background-color: #87ceeb;
   color: #000000;
   padding: 1rem;
   margin: 2rem auto;
@@ -73,6 +73,18 @@ header {
   box-shadow: 5px 7px #000000;
   width: 100%;
   max-width: 700px;
+}
+
+#form h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 0;
+  padding: 10px 15px;
+  background-color: #ffa07a;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 3px solid #000000;
+  box-shadow: 4px 6px #000000;
 }
 #form input,
 #form textarea {
@@ -92,16 +104,20 @@ header {
   box-shadow: 2px 3px #000000;
   border-radius: 10px;
   padding: 0.5rem;
-  background-color: #ffdb58;
+  background-color: #90ee90;
   font-weight: bold;
-  font-family: 'lexend mega', serif;
+  font-family: "lexend mega", serif;
   font-size: 1rem;
+}
+
+#form button:hover {
+  background-color: #30cd30;
 }
 
 footer {
   display: grid;
   background-color: #c4a1ff;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   margin: 0 0;
   text-align: center;
   border: 3px solid #000000;
@@ -109,5 +125,5 @@ footer {
   box-shadow: 4px 6px #000000;
   font-family: "Lexend Mega", serif;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
