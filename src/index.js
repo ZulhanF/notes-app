@@ -2,6 +2,14 @@ import { notesData } from "./sample-notes.js";
 
 const notesListElement = document.querySelector("#notesList");
 
+function checkArchive(archived) {
+  if (archived) {
+    return "Archived";
+  } else {
+    return "Active";
+  }
+}
+
 function createNoteItemElement({ id, title, body, createdAt, archived }) {
   const container = document.createElement("div");
   container.setAttribute("data-noteid", id);
@@ -13,10 +21,11 @@ function createNoteItemElement({ id, title, body, createdAt, archived }) {
   bodyElement.innerText = body;
 
   const dateElement = document.createElement("p");
-  dateElement.textContent = "Tanggal:" + new Date(createdAt).toLocaleString();
+  dateElement.textContent = "Tanggal: " + new Date(createdAt).toLocaleString();
 
   const archivedElement = document.createElement("p");
-  archivedElement.textContent = "Status" + archived ? "Archived" : "Active";
+  let cond = checkArchive(archived);
+  archivedElement.textContent = "Status: " + cond;
 
   container.append(titleElement, bodyElement, dateElement, archivedElement);
 
