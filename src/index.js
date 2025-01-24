@@ -1,4 +1,5 @@
 import { notesData } from "./sample-notes.js";
+import "./custom-element.js";
 
 const notesListElement = document.querySelector("#notesList");
 
