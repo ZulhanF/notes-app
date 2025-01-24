@@ -114,6 +114,12 @@ header {
   background-color: #30cd30;
 }
 
+#form p {
+  font-size: 1rem;
+  color: #ff6b6b;
+  margin: 0;
+}
+
 footer {
   display: grid;
   background-color: #c4a1ff;
