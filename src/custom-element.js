@@ -43,7 +43,8 @@ class customForm extends HTMLElement {
     this.innerHTML = `
       <form id="form">
         <h1>${this.getAttribute("title")}</h1>
-        <input type="text" name="Judul" placeholder="Title" required>
+        <input type="text" name="title" placeholder="Judul" required minlength="5" aria-describedby="usernameValidation" />
+        <p id="usernameValidation" class="validation-message" aria-live="polite"></p>
         <textarea name="body" placeholder="Isi..." required></textarea>
         <button type="submit">TAMBAHKAN</button>
       </form>
