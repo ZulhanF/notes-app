@@ -1,74 +1,155 @@
-import { notesData } from "./sample-notes.js";
+// import { notesData } from "./sample-notes.js";
 import "./custom-element.js";
+
+const baseurl = "https://notes-api.dicoding.dev/v2";
 
 const notesListElement = document.querySelector("#notesList");
 const formElement = document.querySelector("#form");
 const titleInput = formElement.elements.title;
 
-function checkArchive(archived) {
-  if (archived) {
-    return "Archived";
-  } else {
-    return "Active";
-  }
+function main() {
+  const getNotes = () => {
+    fetch(`${baseurl}/notes`, { method: "GET" })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+        notesListElement.innerHTML = "";
+
+        responseJson.data.forEach((note) => {
+          const element = createNoteItemElement(note);
+          notesListElement.append(element);
+        });
+      })
+      .catch((error) => {
+        showResponseMessage(error);
+      });
+  };
+
+  const checkArchive = (archived) => {
+    if (archived) {
+      return "Archived";
+    } else {
+      return "Active";
+    }
+  };
+
+  const addNotes = (note) => {
+    fetch(`${baseurl}/notes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(note),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        showResponseMessage(responseJson.message);
+        getNotes();
+      })
+      .catch((error) => {
+        showResponseMessage(error);
+      });
+  };
+
+  const deleteNotes = (noteId) => {
+    fetch(`${baseurl}/notes/${noteId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        showResponseMessage(responseJson.message);
+        getNotes();
+      })
+      .catch((error) => {
+        showResponseMessage(error);
+      });
+  };
+
+  const createNoteItemElement = ({ id, title, body, createdAt, archived }) => {
+    const container = document.createElement("div");
+    container.setAttribute("data-noteid", id);
+
+    const titleElement = document.createElement("h2");
+    titleElement.textContent = title;
+
+    const bodyElement = document.createElement("p");
+    bodyElement.innerText = body;
+
+    const dateElement = document.createElement("p");
+    dateElement.textContent =
+      "Tanggal: " + new Date(createdAt).toLocaleString();
+
+    const archivedElement = document.createElement("p");
+    let cond = checkArchive(archived);
+    archivedElement.textContent = "Status: " + cond;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Hapus";
+    deleteButton.addEventListener("click", () => {
+      deleteNotes(id);
+    });
+
+    container.append(
+      titleElement,
+      bodyElement,
+      dateElement,
+      archivedElement,
+      deleteButton
+    );
+
+    return container;
+  };
+
+  formElement.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const note = {
+      title: event.target.elements.title.value,
+      body: event.target.elements.body.value,
+    };
+    addNotes(note);
+  });
+
+  const customValidation = (event) => {
+    event.target.setCustomValidity("");
+    if (event.target.validity.valueMissing) {
+      event.target.setCustomValidity("Field tidak boleh kosong");
+    }
+
+    if (event.target.validity.tooShort) {
+      event.target.setCustomValidity("Field minimal 5 karakter");
+    }
+  };
+
+  const showResponseMessage = (message = "Check your internet connection") => {
+    alert(message);
+  };
+
+  titleInput.addEventListener("input", customValidation);
+  titleInput.addEventListener("invalid", customValidation);
+  titleInput.addEventListener("change", customValidation);
+
+  titleInput.addEventListener("blur", (event) => {
+    const isValid = event.target.validity.valid;
+    const errorMessage = event.target.validationMessage;
+
+    const connectedValidationId = event.target.getAttribute("aria-describedby");
+    const connectedValidationEl = connectedValidationId
+      ? document.getElementById(connectedValidationId)
+      : null;
+
+    if (connectedValidationEl && errorMessage && !isValid) {
+      connectedValidationEl.innerText = errorMessage;
+    } else {
+      connectedValidationEl.innerText = "";
+    }
+  });
+  getNotes();
 }
-
-function createNoteItemElement({ id, title, body, createdAt, archived }) {
-  const container = document.createElement("div");
-  container.setAttribute("data-noteid", id);
-
-  const titleElement = document.createElement("h2");
-  titleElement.textContent = title;
-
-  const bodyElement = document.createElement("p");
-  bodyElement.innerText = body;
-
-  const dateElement = document.createElement("p");
-  dateElement.textContent = "Tanggal: " + new Date(createdAt).toLocaleString();
-
-  const archivedElement = document.createElement("p");
-  let cond = checkArchive(archived);
-  archivedElement.textContent = "Status: " + cond;
-
-  container.append(titleElement, bodyElement, dateElement, archivedElement);
-
-  return container;
-}
-
-notesData.forEach((sampleNote) => {
-  const element = createNoteItemElement(sampleNote);
-  notesListElement.append(element);
-});
-
-formElement.addEventListener("submit", (event) => event.preventDefault());
-
-const customValidation = (event) => {
-  event.target.setCustomValidity("");
-  if (event.target.validity.valueMissing) {
-    event.target.setCustomValidity("Field tidak boleh kosong");
-  }
-
-  if (event.target.validity.tooShort) {
-    event.target.setCustomValidity("Field minimal 5 karakter");
-  }
-};
-
-titleInput.addEventListener("input", customValidation);
-titleInput.addEventListener("invalid", customValidation);
-titleInput.addEventListener("change", customValidation);
-
-titleInput.addEventListener("blur", (event) => {
-  const isValid = event.target.validity.valid;
-  const errorMessage = event.target.validationMessage;
-
-  const connectedValidationId = event.target.getAttribute("aria-describedby");
-  const connectedValidationEl = connectedValidationId
-    ? document.getElementById(connectedValidationId)
-    : null;
-
-  if (connectedValidationEl && errorMessage && !isValid) {
-    connectedValidationEl.innerText = errorMessage;
-  } else {
-    connectedValidationEl.innerText = "";
-  }
-});
+document.addEventListener("DOMContentLoaded", main);
+export default main;

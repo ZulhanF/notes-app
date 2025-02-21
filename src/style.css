@@ -1,6 +1,16 @@
 body {
-  font-family: monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    monospace,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
   margin: auto 2rem;
   padding: 0;
   background-color: #ff69b4;
@@ -13,8 +23,8 @@ header {
   margin: 2rem auto;
   text-align: center;
   border: 3px solid #000000;
-  border-radius: 10px;
-  box-shadow: 4px 6px #000000;
+  border-radius: 5px;
+  box-shadow: 9px 8px #000000;
   font-family: "Lexend Mega", serif;
   font-weight: bold;
   font-size: 1rem;
@@ -24,8 +34,18 @@ header {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
-  font-family: monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    monospace,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
 .list > * {
@@ -34,8 +54,8 @@ header {
   padding: 0;
   margin: 0;
   border: 3px solid #000000;
-  border-radius: 10px;
-  box-shadow: 5px 7px #000000;
+  border-radius: 5px;
+  box-shadow: 5px 6px #000000;
 }
 
 .list h2 {
@@ -45,21 +65,42 @@ header {
   padding: 10px 15px;
   background-color: #ffdb58;
   box-sizing: border-box;
-  border-radius: 10px 10px 0 0;
+  border-radius: 5px 5px 0 0;
   border-bottom: 3px solid #000000;
 }
 
 .list p {
   font-size: 1rem;
-  padding: 10px;
+  padding: 7px 15px;
   margin: 0;
   box-sizing: border-box;
+}
+
+.list button {
+  background-color: #ff6b6b;
+  padding: 0.5rem 0.5rem;
+  margin: 1rem 1rem;
+  text-align: center;
+  border: 3px solid #000000;
+  border-radius: 5px;
+  box-shadow: 4px 3px #000000;
+  font-family: "Lexend Mega", serif;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.list button:hover {
+  background-color: #e22727;
+  box-shadow: none;
+  transform: translateY(2px);
+  transition: transform 0.3s ease;  
 }
 
 .list > *:hover {
   transform: scale(1.07);
   transition: transform 0.2s ease;
 }
+
 
 #form {
   display: grid;
@@ -82,14 +123,14 @@ header {
   padding: 10px 15px;
   background-color: #ffa07a;
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 3px solid #000000;
   box-shadow: 4px 6px #000000;
 }
 #form input,
 #form textarea {
   border: 3px solid #000000;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.5rem;
   box-shadow: 2px 3px #000000;
   font-family: inherit;
@@ -102,16 +143,19 @@ header {
 #form button {
   border: 3px solid #000000;
   box-shadow: 2px 3px #000000;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.5rem;
   background-color: #90ee90;
   font-weight: bold;
-  font-family: "lexend mega", serif;
   font-size: 1rem;
+  font-family: "Lexend Mega", serif;
 }
 
 #form button:hover {
   background-color: #30cd30;
+  box-shadow: none;
+  transform: translateY(2px);
+  transition: transform 0.3s ease;  
 }
 
 #form p {
@@ -168,7 +212,6 @@ footer {
     padding: 1rem;
   }
 }
-
 
 @media (min-width: 601px) and (max-width: 1024px) {
   body {
