@@ -19,7 +19,7 @@ function main() {
         archivedListElement.innerHTML = "";
 
         responseJson.data.forEach((note) => {
-          const element = createNoteItemElement(note);
+          const element = createArchiveItem(note);
           archivedListElement.append(element);
         });
       });
@@ -58,6 +58,7 @@ function main() {
       .then((responseJson) => {
         showResponseMessage(responseJson.message);
         getNotes();
+        getArchived();
       })
       .catch((error) => {
         showResponseMessage(error);
@@ -74,6 +75,7 @@ function main() {
       .then((responseJson) => {
         showResponseMessage(responseJson.message);
         getNotes();
+        getArchived();
       })
       .catch((error) => {
         showResponseMessage(error);
@@ -82,6 +84,21 @@ function main() {
 
   const archiveNotes = (noteId) => {
     fetch(`${baseurl}/notes/${noteId}/archive`, { method: "POST" })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        showResponseMessage(responseJson.message);
+        getNotes();
+        getArchived();
+      })
+      .catch((error) => {
+        showResponseMessage(error);
+      });
+  };
+
+  const unarchiveNotes = (noteId) => {
+    fetch(`${baseurl}/notes/${noteId}/unarchive`, { method: "POST" })
       .then((response) => {
         return response.json();
       })
@@ -117,11 +134,50 @@ function main() {
 
     const archiveButton = document.createElement("button");
     archiveButton.textContent = "Arsipkan";
+    archiveButton.setAttribute("id", "arsipbtn");
     archiveButton.addEventListener("click", () => {
       archiveNotes(id);
     });
 
-    container.append(titleElement, bodyElement, dateElement, deleteButton, archiveButton);
+    container.append(
+      titleElement,
+      bodyElement,
+      dateElement,
+      deleteButton,
+      archiveButton
+    );
+
+    return container;
+  };
+
+  const createArchiveItem = ({ id, title, body, createdAt, archived }) => {
+    const container = document.createElement("div");
+    container.setAttribute("data-noteid", id);
+
+    const titleElement = document.createElement("h2");
+    titleElement.textContent = title;
+
+    const bodyElement = document.createElement("p");
+    bodyElement.innerText = body;
+
+    const dateElement = document.createElement("p");
+    dateElement.textContent =
+      "Tanggal: " + new Date(createdAt).toLocaleString();
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Hapus";
+    deleteButton.addEventListener("click", () => {
+      deleteNotes(id);
+    });
+
+    const unarchiveButton = document.createElement("button");
+    unarchiveButton.textContent = "Pulihkan";
+    unarchiveButton.setAttribute("id", "unarsipbtn");
+    unarchiveButton.addEventListener("click", () => {
+      unarchiveNotes(id);
+    });
+
+    container.append(titleElement, bodyElement, dateElement, unarchiveButton);
 
     return container;
   };
