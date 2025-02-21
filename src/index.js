@@ -1,4 +1,3 @@
-// import { notesData } from "./sample-notes.js";
 import "./custom-element.js";
 
 const baseurl = "https://notes-api.dicoding.dev/v2";
