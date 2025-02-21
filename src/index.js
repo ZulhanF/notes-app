@@ -4,6 +4,7 @@ const baseurl = "https://notes-api.dicoding.dev/v2";
 const loading = document.querySelector("#loading");
 
 const notesListElement = document.querySelector("#notesList");
+const separatorElement = document.querySelector("#separator");
 const archivedListElement = document.querySelector("#archivedList");
 const formElement = document.querySelector("#form");
 const titleInput = formElement.elements.title;
@@ -24,6 +25,12 @@ function main() {
       .then((responseJson) => {
         console.log(responseJson);
         archivedListElement.innerHTML = "";
+
+        if (responseJson.data.length === 0) {
+          separator.style.display = "none";
+        } else {
+          separator.style.display = "block";
+        }
 
         responseJson.data.forEach((note) => {
           const element = createArchiveItem(note);
