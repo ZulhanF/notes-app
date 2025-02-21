@@ -93,14 +93,13 @@ header {
   background-color: #e22727;
   box-shadow: none;
   transform: translateY(2px);
-  transition: transform 0.3s ease;  
+  transition: transform 0.3s ease;
 }
 
 .list > *:hover {
   transform: scale(1.07);
   transition: transform 0.2s ease;
 }
-
 
 #form {
   display: grid;
@@ -155,7 +154,7 @@ header {
   background-color: #30cd30;
   box-shadow: none;
   transform: translateY(2px);
-  transition: transform 0.3s ease;  
+  transition: transform 0.3s ease;
 }
 
 #form p {
@@ -177,6 +176,14 @@ header {
   width: 100%;
   max-width: 700px;
   text-align: center;
+}
+
+#arsipbtn {
+  background-color: #87ceeb;
+}
+
+#unarsipbtn {
+  background-color: #d0e8c5;
 }
 
 footer {
