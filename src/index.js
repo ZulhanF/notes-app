@@ -27,9 +27,9 @@ function main() {
         archivedListElement.innerHTML = "";
 
         if (responseJson.data.length === 0) {
-          separator.style.display = "none";
+          separatorElement.style.display = "none";
         } else {
-          separator.style.display = "block";
+          separatorElement.style.display = "block";
         }
 
         responseJson.data.forEach((note) => {
