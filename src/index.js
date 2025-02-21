@@ -2,6 +2,7 @@
 import "./custom-element.js";
 
 const baseurl = "https://notes-api.dicoding.dev/v2";
+const loading = document.querySelector("#loading");
 
 const notesListElement = document.querySelector("#notesList");
 const archivedListElement = document.querySelector("#archivedList");
@@ -9,7 +10,14 @@ const formElement = document.querySelector("#form");
 const titleInput = formElement.elements.title;
 
 function main() {
+  const showLoading = (loading) => {
+    loading.style.display = "block";
+  };
+  const hideLoading = (loading) => {
+    loading.style.display = "none";
+  };
   const getArchived = () => {
+    showLoading(loading);
     fetch(`${baseurl}/notes/archived`, { method: "GET" })
       .then((response) => {
         return response.json();
@@ -22,10 +30,14 @@ function main() {
           const element = createArchiveItem(note);
           archivedListElement.append(element);
         });
+      })
+      .finally(() => {
+        hideLoading(loading);
       });
   };
 
   const getNotes = () => {
+    showLoading(loading);
     fetch(`${baseurl}/notes`, { method: "GET" })
       .then((response) => {
         return response.json();
@@ -41,6 +53,9 @@ function main() {
       })
       .catch((error) => {
         showResponseMessage(error);
+      })
+      .finally(() => {
+        hideLoading(loading);
       });
   };
 
@@ -112,7 +127,7 @@ function main() {
       });
   };
 
-  const createNoteItemElement = ({ id, title, body, createdAt, archived }) => {
+  const createNoteItemElement = ({ id, title, body, createdAt }) => {
     const container = document.createElement("div");
     container.setAttribute("data-noteid", id);
 
@@ -150,7 +165,7 @@ function main() {
     return container;
   };
 
-  const createArchiveItem = ({ id, title, body, createdAt, archived }) => {
+  const createArchiveItem = ({ id, title, body, createdAt }) => {
     const container = document.createElement("div");
     container.setAttribute("data-noteid", id);
 
