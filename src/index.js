@@ -249,5 +249,13 @@ function main() {
   getNotes();
   getArchived();
 }
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener("DOMContentLoaded", () => {
+  main();
+  anime({
+    targets: "#notesList",
+    opacity: [0, 1],
+    duration: 1500,
+    easing: "easeInOutQuad",
+  });
+});
 export default main;
