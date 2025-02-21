@@ -4,10 +4,27 @@ import "./custom-element.js";
 const baseurl = "https://notes-api.dicoding.dev/v2";
 
 const notesListElement = document.querySelector("#notesList");
+const archivedListElement = document.querySelector("#archivedList");
 const formElement = document.querySelector("#form");
 const titleInput = formElement.elements.title;
 
 function main() {
+  const getArchived = () => {
+    fetch(`${baseurl}/notes/archived`, { method: "GET" })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+        archivedListElement.innerHTML = "";
+
+        responseJson.data.forEach((note) => {
+          const element = createNoteItemElement(note);
+          archivedListElement.append(element);
+        });
+      });
+  };
+
   const getNotes = () => {
     fetch(`${baseurl}/notes`, { method: "GET" })
       .then((response) => {
@@ -25,14 +42,6 @@ function main() {
       .catch((error) => {
         showResponseMessage(error);
       });
-  };
-
-  const checkArchive = (archived) => {
-    if (archived) {
-      return "Archived";
-    } else {
-      return "Active";
-    }
   };
 
   const addNotes = (note) => {
@@ -71,6 +80,21 @@ function main() {
       });
   };
 
+  const archiveNotes = (noteId) => {
+    fetch(`${baseurl}/notes/${noteId}/archive`, { method: "POST" })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        showResponseMessage(responseJson.message);
+        getNotes();
+        getArchived();
+      })
+      .catch((error) => {
+        showResponseMessage(error);
+      });
+  };
+
   const createNoteItemElement = ({ id, title, body, createdAt, archived }) => {
     const container = document.createElement("div");
     container.setAttribute("data-noteid", id);
@@ -85,23 +109,19 @@ function main() {
     dateElement.textContent =
       "Tanggal: " + new Date(createdAt).toLocaleString();
 
-    const archivedElement = document.createElement("p");
-    let cond = checkArchive(archived);
-    archivedElement.textContent = "Status: " + cond;
-
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Hapus";
     deleteButton.addEventListener("click", () => {
       deleteNotes(id);
     });
 
-    container.append(
-      titleElement,
-      bodyElement,
-      dateElement,
-      archivedElement,
-      deleteButton
-    );
+    const archiveButton = document.createElement("button");
+    archiveButton.textContent = "Arsipkan";
+    archiveButton.addEventListener("click", () => {
+      archiveNotes(id);
+    });
+
+    container.append(titleElement, bodyElement, dateElement, deleteButton, archiveButton);
 
     return container;
   };
@@ -150,6 +170,7 @@ function main() {
     }
   });
   getNotes();
+  getArchived();
 }
 document.addEventListener("DOMContentLoaded", main);
 export default main;
